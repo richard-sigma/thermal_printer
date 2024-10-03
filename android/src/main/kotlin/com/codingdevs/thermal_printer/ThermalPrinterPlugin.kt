@@ -204,6 +204,8 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+        bluetoothService = BluetoothService.getInstance(bluetoothHandler)
+        print("Kotlin Print")
         isScan = false
         when {
             call.method.equals("getBluetoothList") -> {
