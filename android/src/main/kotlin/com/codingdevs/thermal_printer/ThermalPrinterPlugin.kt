@@ -53,7 +53,7 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
     private var isBle: Boolean = false
     private var isScan: Boolean = false
     lateinit var adapter: USBPrinterService
-    private lateinit var bluetoothService: BluetoothService
+    lateinit var bluetoothService: BluetoothService
 
 
     private val usbHandler = object : Handler(Looper.getMainLooper()) {
@@ -373,13 +373,14 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
     private fun checkPermissions(): Boolean {
         val permissions = mutableListOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-//            Manifest.permission.BLUETOOTH,
-//            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissions.add(Manifest.permission.BLUETOOTH_SCAN)
             permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+            permissions.add(Manifest.permission.NEARBY_WIFI_DEVICES)
         }
 
         if (!hasPermissions(context, *permissions.toTypedArray())) {
