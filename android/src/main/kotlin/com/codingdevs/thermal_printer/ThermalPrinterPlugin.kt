@@ -383,6 +383,10 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
             permissions.add(Manifest.permission.NEARBY_WIFI_DEVICES)
         }
 
+        // new added for null-safe check
+        val activity = currentActivity ?: return false
+        val ctx = context ?: activity.applicationContext
+
         if (!hasPermissions(context, *permissions.toTypedArray())) {
             ActivityCompat.requestPermissions(currentActivity!!, permissions.toTypedArray(), PERMISSION_ALL)
             return false

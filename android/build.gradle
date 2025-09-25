@@ -2,7 +2,7 @@ group 'com.codingdevs.thermal_printer'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.9.10'
+    ext.kotlin_version = '1.8.10'
     repositories {
         google()
         mavenCentral()
@@ -43,7 +43,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 34
     }
 }
