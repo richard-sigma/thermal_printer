@@ -305,7 +305,7 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
      */
 
     private fun verifyIsBluetoothIsOn(): Boolean {
-        if (checkPermissions()) {
+        //if (checkPermissions()) {
             if (!bluetoothService.mBluetoothAdapter.isEnabled) {
                 if (requestPermissionBT) return false
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -313,7 +313,7 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
                 requestPermissionBT = true
                 return false
             }
-        } else return false
+        //} else return false
         return true
     }
 
