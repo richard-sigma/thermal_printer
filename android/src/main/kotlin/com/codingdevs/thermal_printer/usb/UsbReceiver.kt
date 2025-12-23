@@ -7,6 +7,7 @@ import android.content.Intent
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.util.Log
+import android.os.Build
 
 class UsbReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -15,12 +16,24 @@ class UsbReceiver : BroadcastReceiver() {
         val action = intent.action
         if (UsbManager.ACTION_USB_DEVICE_ATTACHED == action) {
 
-            val usbDevice: UsbDevice? = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+            val usbDevice: UsbDevice? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getParcelableExtra(
+                    UsbManager.EXTRA_DEVICE,
+                    UsbDevice::class.java
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+            }
+            val explicitIntent = Intent("com.flutter_pos_printer.USB_PERMISSION");
+            explicitIntent.setPackage(context?.packageName);
 
             val mPermissionIndent = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-                PendingIntent.getBroadcast(context, 0, Intent("com.flutter_pos_printer.USB_PERMISSION"), PendingIntent.FLAG_MUTABLE)
+//                PendingIntent.getBroadcast(context, 0, Intent("com.flutter_pos_printer.USB_PERMISSION"), PendingIntent.FLAG_MUTABLE)
+                PendingIntent.getBroadcast(context, 0, explicitIntent, PendingIntent.FLAG_MUTABLE)
             } else {
-                PendingIntent.getBroadcast(context, 0, Intent("com.flutter_pos_printer.USB_PERMISSION"), 0)
+//                PendingIntent.getBroadcast(context, 0, Intent("com.flutter_pos_printer.USB_PERMISSION"), 0)
+                PendingIntent.getBroadcast(context, 0, explicitIntent, 0)
             }
             val mUSBManager = context?.getSystemService(Context.USB_SERVICE) as UsbManager?
             mUSBManager?.requestPermission(usbDevice, mPermissionIndent)

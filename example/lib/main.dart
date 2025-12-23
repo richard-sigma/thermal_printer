@@ -556,8 +556,9 @@ class _MyAppState extends State<MyApp> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: OutlinedButton(
                         onPressed: () async {
-                          if (_ipController.text.isNotEmpty)
+                          if (_ipController.text.isNotEmpty) {
                             setIpAddress(_ipController.text);
+                          }
                           _printReceiveTest();
                         },
                         child: const Padding(

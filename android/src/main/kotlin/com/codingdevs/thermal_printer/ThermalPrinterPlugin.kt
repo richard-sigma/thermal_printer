@@ -246,7 +246,6 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
                 } catch (e: Exception) {
                     result.success(false)
                 }
-
             }
 
             call.method.equals("sendDataByte") -> {
@@ -318,6 +317,7 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
     }
 
     private fun getUSBDeviceList(result: Result) {
+        Log.d("EZY_CHANNEL", "Arguments: Call USB DEVICE LIST")
         val usbDevices: List<UsbDevice> = adapter.deviceList
         val list = ArrayList<HashMap<*, *>>()
         for (usbDevice in usbDevices) {
@@ -334,6 +334,7 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
     }
 
     private fun connectPrinter(vendorId: Int?, productId: Int?, result: Result) {
+        Log.d("EZY_CHANNEL", "Arguments: Connect USB DEVICE Vendor $vendorId  Product $productId")
         if (vendorId == null || productId == null) return
         adapter.setHandler(usbHandler)
         if (!adapter.selectDevice(vendorId, productId)) {
@@ -408,7 +409,6 @@ class ThermalPrinterPlugin : FlutterPlugin, MethodCallHandler, PluginRegistry.Re
         }
         return true
     }
-
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         currentActivity = binding.activity
